@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptForge Ultra | Studio Profesional de Ingeniería de Prompts con IA</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-surface: #0c101a;
+      --bg-card: rgba(15, 22, 36, 0.85);
+      --bg-card-hover: rgba(22, 32, 52, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(99, 102, 241, 0.4);
+      
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --accent-cyan: #06b6d4;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      background-image: 
+        radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.12), transparent 40%),
+        radial-gradient(circle at 90% 100%, rgba(236, 72, 153, 0.08), transparent 40%);
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #080c14; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+    .studio-app {
+      display: grid;
+      grid-template-rows: 56px 1fr;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    header.studio-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      background: rgba(10, 14, 23, 0.95);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .studio-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .brand-icon-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .studio-brand:hover .brand-icon-img {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.7);
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-studio-pro {
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 7px;
+      background: linear-gradient(90deg, #ec4899, #8b5cf6);
+      color: #fff;
+      border-radius: 20px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .topbar-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .topbar-btn.active-tab {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .api-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    .status-dot.connected {
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+
+    .studio-workspace {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+    }
+
+    .studio-left-dock {
+      background: rgba(12, 16, 26, 0.9);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .dock-scroll-area {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mode-tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      background: #080c14;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .mode-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      padding: 8px 4px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .mode-tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .mode-tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      color: #fff;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+    }
+
+    .mode-tab-btn.pipeline-tab.active {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(168, 85, 247, 0.3));
+      color: #fff;
+      border-color: #ec4899;
+    }
+
+    .engine-dock-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+
+    .engine-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .engine-chips-scroll {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 120px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .model-chip {
+      background: #090e17;
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 5px 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .model-chip:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+
+    .model-chip.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3));
+      border-color: #818cf8;
+      color: #fff;
+    }
+
+    .model-chip.recommended {
+      border-color: rgba(6, 182, 212, 0.4);
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .studio-select, .studio-input {
+      background: #090e17;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      padding: 8px 10px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .studio-select:focus, .studio-input:focus {
+      border-color: var(--primary);
+    }
+
+    .mic-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #38bdf8;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .mic-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+    }
+
+    .mic-btn.recording {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #fca5a5;
+      animation: micPulse 1.2s infinite alternate;
+    }
+
+    @keyframes micPulse {
+      0% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.4); transform: scale(1); }
+      100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.8); transform: scale(1.05); }
+    }
+
+    .textarea-box {
+      position: relative;
+      background: #090e17;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .textarea-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+    }
+
+    .studio-textarea {
+      width: 100%;
+      height: 95px;
+      padding: 10px 12px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      resize: none;
+      outline: none;
+    }
+
+    .textarea-counter {
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      text-align: right;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .dock-footer {
+      padding: 14px 20px;
+      background: rgba(8, 12, 20, 0.95);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-studio-generate {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+      color: #fff;
+      border: none;
+      padding: 13px 20px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.5);
+      transition: all 0.2s;
+    }
+
+    .btn-studio-generate:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 25px -4px rgba(99, 102, 241, 0.6);
+    }
+
+    .btn-studio-generate:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: grayscale(40%);
+    }
+
+    .studio-right-canvas {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #080c14;
+      overflow: hidden;
+    }
+
+    .canvas-topbar {
+      padding: 12px 24px;
+      background: rgba(12, 16, 26, 0.8);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .canvas-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .canvas-title-group h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .canvas-body-scroll {
+      flex: 1;
+      padding: 20px 24px 60px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Studio Card */
+    .studio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .studio-card:hover {
+      border-color: var(--border-glow);
+      background: var(--bg-card-hover);
+    }
+
+    .studio-card.card-texto { border-left: 4px solid #6366f1; }
+    .studio-card.card-imagen { border-left: 4px solid #a855f7; }
+    .studio-card.card-video { border-left: 4px solid #ec4899; }
+    .studio-card.card-audio { border-left: 4px solid #06b6d4; }
+
+    .card-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .card-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-phase {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .card-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-card.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn-card.primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-card.favorite.active {
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.5);
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .studio-code-view {
+      background: #050810;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .studio-code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+    }
+
+    .studio-code-content {
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .refine-dock {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .refine-pill {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .refine-pill:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.4);
+      color: #c7d2fe;
+    }
+
+    .sandbox-preview {
+      display: none;
+      background: #04060c;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .sandbox-preview-header {
+      background: rgba(6, 182, 212, 0.1);
+      padding: 6px 10px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sandbox-preview-body {
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .canvas-empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      color: var(--text-dim);
+      gap: 12px;
+      padding: 40px;
+    }
+
+    .canvas-empty-icon {
+      font-size: 3rem;
+      opacity: 0.6;
+    }
+
+    /* Auditor Score Widget */
+    .auditor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Modal Overlay & Card */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background: #0d121d;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .history-drawer {
+      position: fixed;
+      top: 0;
+      right: -440px;
+      width: 420px;
+      max-width: 90vw;
+      height: 100vh;
+      background: #0c101a;
+      border-left: 1px solid var(--border-subtle);
+      box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+      z-index: 1001;
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .history-drawer.open { right: 0; }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .template-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .template-card:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary);
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsividad Completa para Celular, Tablet y WebView/APK */
+    @media (max-width: 1024px) {
+      .studio-workspace {
+        grid-template-columns: 380px 1fr;
+      }
+    }
+
+    @media (max-width: 820px) {
+      html, body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+      }
+
+      .studio-app {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+      }
+
+      header.studio-topbar {
+        position: sticky;
+        top: 0;
+        padding: 10px 14px;
+        flex-wrap: wrap;
+        gap: 8px;
+        height: auto;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        justify-content: flex-start;
+        gap: 6px;
+      }
+
+      .topbar-btn span, .api-status-pill span:last-child {
+        display: inline;
+      }
+
+      .studio-workspace {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+      }
+
+      .studio-left-dock {
+        border-right: none;
+        border-bottom: 1px solid var(--border-subtle);
+        height: auto;
+        overflow: visible;
+      }
+
+      .dock-scroll-area {
+        overflow: visible;
+        padding: 14px;
+      }
+
+      .studio-right-canvas {
+        height: auto;
+        min-height: 600px;
+        overflow: visible;
+      }
+
+      .canvas-body {
+        overflow: visible;
+        padding: 14px;
+      }
+
+      .mode-tabs-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .template-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-card {
+        padding: 16px;
+        margin: 10px;
+        max-height: 92vh;
+      }
+
+      .history-drawer {
+        width: 100vw;
+        max-width: 100vw;
+        right: -100vw;
+      }
+
+      .studio-code-content {
+        font-size: 0.78rem;
+        max-height: 320px;
+      }
+
+      .refine-dock {
+        gap: 4px;
+      }
+
+      .prompt-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .prompt-card-header .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mode-tabs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .brand-title {
+        font-size: 0.95rem;
+      }
+      .topbar-btn {
+        padding: 5px 8px;
+        font-size: 0.74rem;
+      }
+    }
+
+    /* Pantalla de Bloqueo por Licencia */
+    .license-lockout-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .license-card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      box-shadow: 0 0 60px rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      padding: 32px 28px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      backdrop-filter: blur(20px);
+    }
+
+    .license-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto;
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
+    }
+
+    .license-input-box {
+      background: #080c14;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-family: var(--font-mono);
+      text-align: center;
+      letter-spacing: 0.1em;
+      outline: none;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .license-input-box:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA DE ACTIVACIÓN DE LICENCIA (CANDADO POR ID DE DISPOSITIVO) -->
+  <div id="licenseLockScreen" class="license-lockout-screen" style="display: none;">
+    <div class="license-card">
+      <img src="logo.png" alt="PromptForge Logo" class="brand-icon-img" style="width: 58px; height: 58px; margin: 0 auto; box-shadow: 0 0 28px rgba(6, 182, 212, 0.6); border-radius: 14px;">
+      <div>
+        <h2 style="font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 6px;">Activación de PromptForge Studio</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
+          Copia tu <strong>ID de Dispositivo</strong> y envíalo al administrador para recibir tu <strong>Clave de Activación</strong> oficial.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+        <div>
+          <label style="font-size: 0.74rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; display: block; margin-bottom: 6px;">Tu ID de Dispositivo / Equipo (Automático)</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="licenseDeviceIdDisplay" class="license-input-box" style="flex: 1; background: rgba(255,255,255,0.04); font-weight: 700; color: #38bdf8;" readonly>
+            <button type="button" onclick="copiarDeviceId()" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; border-radius: var(--radius-sm); padding: 0 14px; font-weight: 700; font-size: 0.8rem; cursor: pointer;" title="Copiar ID">📋 Copiar</button>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.74rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; display: block; margin-bottom: 6px;">Clave de Activación Pro</label>
+          <input type="text" id="licenseKeyInput" class="license-input-box" placeholder="FORGE-XXXX-XXXX-XXXX" maxlength="24" style="width: 100%;">
+        </div>
+      </div>
+
+      <div id="licenseErrorMsg" style="display: none; color: #f87171; font-size: 0.8rem; background: rgba(239, 68, 68, 0.1); padding: 8px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2);">
+        Clave de activación incorrecta para este dispositivo.
+      </div>
+
+      <button type="button" class="btn-forge-action" onclick="validarYActivarLicencia()" style="width: 100%; justify-content: center; font-size: 0.95rem; padding: 14px;">
+        ✨ Desbloquear Software Ahora
+      </button>
+
+      <div style="font-size: 0.75rem; color: var(--text-dim); line-height: 1.4;">
+        Licencia vitalicia e intransferible vinculada a este equipo.
+      </div>
+    </div>
+  </div>
+
+  <div class="studio-app">
+    <!-- Topbar Navigation -->
+    <header class="studio-topbar">
+      <div class="topbar-left">
+        <div class="studio-brand">
+          <img src="logo.png" alt="PromptForge Logo" class="brand-icon-img">
+          <div class="brand-title">
+            PromptForge <span class="badge-studio-pro">Studio Ultra</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button type="button" class="topbar-btn" onclick="openTemplateLibraryModal()" title="Explorar Biblioteca de Plantillas">
+          📚 <span>Plantillas Pro</span>
+        </button>
+        <button type="button" class="topbar-btn" onclick="openReverseEngineerModal()" title="Ingeniería Inversa: Pega un texto o imagen y obtén su prompt">
+          🔄 <span>Ingeniería Inversa</span>
+        </button>
+        <button type="button" class="topbar-btn" onclick="openApiKeyModal()">
+          📖 <span>Guía / API Key</span>
+        </button>
+        <button type="button" class="topbar-btn" onclick="toggleHistoryDrawer()">
+          🕒 <span>Historial & Favs</span>
+        </button>
+        <div class="api-status-pill" id="apiStatusPill" onclick="openApiKeyModal()" style="display: none;">
+          <span id="apiDot" class="status-dot"></span>
+          <span id="apiStatusText" style="color: #34d399; font-size: 0.76rem;">API Key activada</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Split Studio Workspace -->
+    <div class="studio-workspace">
+      
+      <!-- LEFT DOCK: Controls & Prompt Formulation Panel -->
+      <aside class="studio-left-dock">
+        <div class="dock-scroll-area">
+          
+          <!-- Notice if No API Key -->
+          <div id="apiNoticeBanner" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 0.78rem; color: #fca5a5; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <span>🔑 Falta tu API Key gratuita de Google.</span>
+            <button type="button" onclick="openApiKeyModal()" style="background: #dc2626; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">Activar</button>
+          </div>
+
+          <!-- Mode / Category Selection -->
+          <div class="field-group">
+            <div class="field-label">
+              <span>1. MODO DE PRODUCCIÓN</span>
+              <span style="color: #ec4899; font-size: 0.7rem;">Multimodal Ready</span>
+            </div>
+            <div class="mode-tabs-grid" style="grid-template-columns: repeat(6, 1fr);">
+              <button type="button" class="mode-tab-btn pipeline-tab active" data-cat="pipeline" onclick="selectCategory('pipeline')">
+                <span>⚡</span> <span>Pipeline</span>
+              </button>
+              <button type="button" class="mode-tab-btn business-tab" data-cat="negocio" onclick="selectCategory('negocio')">
+                <span>🏢</span> <span>Negocio/Ads</span>
+              </button>
+              <button type="button" class="mode-tab-btn" data-cat="texto" onclick="selectCategory('texto')">
+                <span>💬</span> <span>Texto</span>
+              </button>
+              <button type="button" class="mode-tab-btn" data-cat="imagen" onclick="selectCategory('imagen')">
+                <span>🎨</span> <span>Imagen</span>
+              </button>
+              <button type="button" class="mode-tab-btn" data-cat="video" onclick="selectCategory('video')">
+                <span>🎬</span> <span>Video</span>
+              </button>
+              <button type="button" class="mode-tab-btn" data-cat="audio" onclick="selectCategory('audio')">
+                <span>🎙️</span> <span>Audio</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Target Engine (If not pipeline or negocio) -->
+          <div class="engine-dock-box" id="platformSelectorWrapper" style="display: none;">
+            <div class="engine-header-row">
+              <span style="font-size: 0.74rem; font-weight: 700; color: var(--text-dim);">MOTOR DESTINO:</span>
+              <input type="text" id="platformSearch" placeholder="Buscar IA..." style="background: #060911; border: 1px solid var(--border-subtle); color: #fff; padding: 2px 8px; font-size: 0.72rem; border-radius: 12px; width: 110px;" oninput="filtrarModelos()">
+            </div>
+            <div class="engine-chips-scroll" id="platformChipsContainer"></div>
+          </div>
+
+          <!-- Creator DNA & Brand Voice Profile -->
+          <div class="field-group">
+            <div class="field-label">
+              <span>2. ADN DE MARCA & GANCHO COMERCIAL</span>
+              <span style="color: var(--accent-cyan); cursor: pointer; font-size: 0.7rem;" onclick="gestionarBrandVoice()">⚙️ Perfiles ADN</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <select id="brandVoiceProfile" class="studio-select" onchange="onBrandVoiceChange()">
+                <optgroup label="🏢 Perfiles de Negocio & Publicidad">
+                  <option value="travel_agency" selected>✈️ Agencia de Viajes & Turismo (Aspiracional)</option>
+                  <option value="local_retail">🛍️ Negocio Local / Ofertas & Descuentos</option>
+                  <option value="clinic_health">🩺 Salud, Clínica & Bienestar (Confianza)</option>
+                  <option value="restaurant_food">🍔 Gastronomía & Restaurantes (Apetito)</option>
+                  <option value="real_estate">🏡 Inmobiliaria & Bienes Raíces (Premium)</option>
+                  <option value="app_software">💻 Software / App & Servicios Tech</option>
+                </optgroup>
+                <optgroup label="🌟 Perfiles de Creador & Marca Personal">
+                  <option value="none">Tono Estándar / Neutro</option>
+                  <option value="viral_creator">🔥 Creador Viral (3s Hook)</option>
+                  <option value="b2b_authority">💼 Autoridad B2B & Consultor</option>
+                  <option value="storyteller_dark">🌌 Storyteller Cinemático</option>
+                  <option value="custom">✏️ Personalizado...</option>
+                </optgroup>
+              </select>
+              <select id="viralHookFramework" class="studio-select" style="grid-column: span 1;">
+                <option value="none">Sin gancho forzado</option>
+                
+                <optgroup label="🛒 Ganchos Comerciales & Ofertas de Negocio">
+                  <option value="offer_urgency" selected>🔥 Oferta Irresistible / 2x1 / Cupos Limitados</option>
+                  <option value="travel_paradise">🏖️ Escape al Paraíso ("Mereces estas vacaciones...")</option>
+                  <option value="price_drop">🏷️ Descuento Flash / Precio de Liquidación</option>
+                  <option value="pain_relief">💆 Alivio del Problema ("Despídete de...")</option>
+                  <option value="guarantee_zero_risk">🛡️ Garantía Total / Cero Riesgo</option>
+                </optgroup>
+
+                <optgroup label="👀 Ganchos Visuales & Portadas (Clickbait / Flyer CTR)">
+                  <option value="visual_eye_candy">💋 Visual Glamour / Playa / Atractivo Físico</option>
+                  <option value="visual_shock_bizarre">🤯 Impacto Visual Absurdo / Bizarro (WTF)</option>
+                  <option value="visual_contrast_extreme">💥 Contraste Extremo (Antes vs Después)</option>
+                  <option value="visual_mystery_red_arrow">⭕ Elemento Oculto / Misterio Visual</option>
+                </optgroup>
+
+                <optgroup label="🧠 Ganchos Psicológicos & Storytelling">
+                  <option value="contrarian">🔥 Contrarian ("Todo lo que sabes es mentira...")</option>
+                  <option value="open_loop">🔓 Open Loop (Curiosidad Extrema)</option>
+                  <option value="before_after">🔄 Before-After-Bridge (Transformación)</option>
+                  <option value="pas">💢 PAS (Problema - Agitación - Solución)</option>
+                  <option value="story_vulnerability">💔 Confesión / Historia Personal</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <!-- Campos Específicos para Negocios (Oferta, Texto en Flyer y CTA) -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: rgba(99, 102, 241, 0.07); padding: 10px; border-radius: var(--radius-sm); border: 1px solid rgba(99, 102, 241, 0.25);">
+            <div class="field-group" style="margin-bottom: 0;">
+              <div class="field-label" style="font-size: 0.72rem; color: #818cf8;">
+                <span>💰 Oferta / Promoción</span>
+              </div>
+              <input type="text" id="businessOfferInput" class="studio-input" placeholder="Ej: Cancún 4D/3N desde $3,999 MXN o 2x1...">
+            </div>
+            <div class="field-group" style="margin-bottom: 0;">
+              <div class="field-label" style="font-size: 0.72rem; color: #34d399;">
+                <span>📲 Llamada a Acción (CTA)</span>
+              </div>
+              <input type="text" id="businessCtaInput" class="studio-input" placeholder="Ej: Envía WhatsApp al 55-XXXX o Clic al enlace...">
+            </div>
+          </div>
+
+          <!-- Consistency Character Lock & Negative Prompts -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="field-group">
+              <div class="field-label">
+                <span>Estilo Visual / Personaje</span>
+              </div>
+              <input type="text" id="characterLockInput" class="studio-input" placeholder="Ej: Pareja sonriente en playa turquesa...">
+            </div>
+            <div class="field-group">
+              <div class="field-label">
+                <span>Restricción Negativa</span>
+              </div>
+              <input type="text" id="negativeConstraintsInput" class="studio-input" placeholder="Ej: Sin textos deformes, sin marcas de agua...">
+            </div>
+          </div>
+
+          <!-- Strategy & Language -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="field-group">
+              <div class="field-label">Tipo de Publicidad / Formato</div>
+              <select id="promptFramework" class="studio-select">
+                <option value="AIDA-Marketing" selected>AIDA (Atención, Interés, Deseo, Acción)</option>
+                <option value="Flyer-Direct-Response">Flyer de Respuesta Directa</option>
+                <option value="Social-Ads-Meta">Anuncio Meta Ads (Facebook/Instagram)</option>
+                <option value="Reel-Comercial-15s">Guion Video Comercial 15s / 30s</option>
+                <option value="WhatsApp-Direct-Sales">Mensaje de Cierre para WhatsApp</option>
+                <option value="CRISPE">CRISPE Estándar</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <div class="field-label">Idioma de Salida</div>
+              <select id="outputLang" class="studio-select">
+                <option value="auto">Auto (Español Persuasivo)</option>
+                <option value="es">Español Latino Comercial</option>
+                <option value="en">Inglés Nativo High-Conversion</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Idea Input Area -->
+          <div class="field-group">
+            <div class="field-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>3. TU PRODUCTO, SERVICIO O DESTINO A PROMOCIONAR</span>
+              <button type="button" id="btnMicDictate" onclick="toggleDictadoVoz()" class="mic-btn" title="Hablar por micrófono (Dictado de voz a texto)">
+                <span id="micIcon">🎙️</span>
+                <span id="micStatusText">Dictar</span>
+              </button>
+            </div>
+            <div class="textarea-box">
+              <textarea id="ideaInput" class="studio-textarea" placeholder="Escribe o habla por el micrófono. Ej: 'Paquete vacacional de verano a Cancún todo incluido para familias y parejas, con hotel 5 estrellas frente al mar...'"></textarea>
+              <div class="textarea-counter">
+                <span id="tokenEstimator">~0 tokens</span>
+                <span id="charCounter">0 caracteres</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dock Action Footer -->
+        <div class="dock-footer">
+          <button type="button" id="btnGenerar" class="btn-studio-generate" onclick="ejecutarGeneracion()">
+            <span class="sparkle-icon">✨</span>
+            <span id="btnText">Forjar Suite de Prompts</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- RIGHT CANVAS: Timeline / Prompt Output View -->
+      <main class="studio-right-canvas">
+        <div class="canvas-topbar">
+          <div class="canvas-title-group">
+            <h3>
+              <span id="resultsSectionIcon">⚡</span>
+              <span id="resultsSectionTitle">Timeline de Producción</span>
+            </h3>
+            <span style="font-size: 0.75rem; color: var(--text-dim); background: rgba(255, 255, 255, 0.05); padding: 2px 8px; border-radius: 10px;" id="generationMeta">Esperando generación...</span>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-card" onclick="copiarTodoElPipeline()" title="Copiar todo el pipeline de golpe">📋 Copiar Todo</button>
+            <button type="button" class="btn-card" onclick="exportarSuite('markdown')">📥 .MD</button>
+            <button type="button" class="btn-card" onclick="exportarSuite('txt')">📄 .TXT</button>
+            <button type="button" class="btn-card" onclick="exportarSuite('json')">{ } .JSON</button>
+          </div>
+        </div>
+
+        <div class="canvas-body-scroll" id="resultsContainer">
+          <!-- Empty Canvas Initial State -->
+          <div class="canvas-empty-state" id="emptyStatePlaceholder">
+            <div class="canvas-empty-icon">🎬</div>
+            <h4 style="color: #fff; font-size: 1.1rem; font-weight: 700;">Estudio Listo para Producción</h4>
+            <p style="font-size: 0.85rem; max-width: 420px; line-height: 1.5;">
+              Configura tus directrices a la izquierda y presiona <strong>"Forjar Suite de Prompts"</strong> para ver todo el pipeline desplegado en este lienzo de trabajo.
+            </p>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Modal: Guía Visual Paso a Paso & API Key -->
+  <div id="apiKeyModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 640px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #6366f1, #a855f7); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px;">📖</div>
+          <div>
+            <h3 style="color: #fff; font-size: 1.2rem; font-weight: 800;">Manual de Activación: Tu API Key de Google</h3>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">Sigue estos 4 sencillos pasos (100% Gratis y en menos de 1 minuto):</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeApiKeyModal()">&times;</button>
+      </div>
+
+      <!-- Tarjetas de Guía Visual Paso a Paso -->
+      <div style="display: flex; flex-direction: column; gap: 10px; max-height: 55vh; overflow-y: auto; padding-right: 4px;">
+        
+        <!-- PASO 1 -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: flex; gap: 12px; align-items: flex-start;">
+          <div style="background: #6366f1; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">1</div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 3px;">Entra al portal oficial de Google AI Studio</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">Abre tu navegador habitual donde tengas tu cuenta de Google (Gmail).</div>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 5px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-decoration: none;">
+              🔗 Clic aquí para Abrir Google AI Studio ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: flex; gap: 12px; align-items: flex-start;">
+          <div style="background: #a855f7; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">2</div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 3px;">Presiona «Crear clave de API» y luego «+ Crear proyecto»</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+              En la pantalla de Google, presiona el botón azul <strong>"Crear clave de API"</strong>. Si se abre una ventanita preguntando por el proyecto, simplemente haz clic en la opción <strong>"+ Crear proyecto"</strong> (o <em>"Create key in new project"</em>). Google lo configurará automáticamente en 2 segundos.
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: flex; gap: 12px; align-items: flex-start;">
+          <div style="background: #ec4899; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">3</div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 3px;">Copia el código que te muestra Google</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Aparecerá una ventana con una serie de letras y números que empieza por <code>AIzaSy...</code>. Presiona el botón <strong>"Copy" (Copiar)</strong>.</div>
+          </div>
+        </div>
+
+        <!-- PASO 4 -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: flex; gap: 12px; align-items: flex-start;">
+          <div style="background: #10b981; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">4</div>
+          <div style="flex: 1;">
+            <div style="font-size: 0.86rem; font-weight: 700; color: #fff; margin-bottom: 3px;">Pégala en el campo de abajo y guarda</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Pega la clave aquí abajo y presiona <strong>"Guardar y Conectar"</strong>. ¡Solo tienes que hacerlo una vez!</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Formulario de Entrada -->
+      <div style="background: rgba(99, 102, 241, 0.08); border: 1.5px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-sm); padding: 14px; display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label style="font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #818cf8;">Pega tu Clave API de Google Aquí:</label>
+          <span style="font-size: 0.72rem; color: var(--accent-emerald);">✓ Texto Plano Visible</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="modalApiKeyInput" class="studio-input" placeholder="Pega aquí tu clave completa (ej. AIzaSy...)" style="background: #080c14; font-size: 0.92rem; font-family: var(--font-mono); border-color: rgba(99, 102, 241, 0.4); flex: 1;">
+          <button type="button" onclick="pegarDesdePortapapeles()" class="btn-card" style="font-size: 0.76rem; white-space: nowrap;">📋 Pegar</button>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+        <div style="font-size: 0.74rem; color: var(--text-dim);">
+          🔒 Tu clave se guarda únicamente en tu dispositivo.
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-card" onclick="closeApiKeyModal()">Cancelar</button>
+          <button type="button" class="btn-card primary" onclick="guardarApiKey()" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); padding: 8px 18px; font-weight: 800;">
+            ✨ Guardar y Conectar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Library Modal -->
+  <div id="templateModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="color: #fff; font-size: 1.15rem; font-weight: 800;">📚 Biblioteca de Plantillas de Éxito</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Haz clic en cualquier plantilla para cargarla directamente al estudio.</p>
+        </div>
+        <button class="modal-close" onclick="closeTemplateLibraryModal()">&times;</button>
+      </div>
+      <div class="template-grid" id="templatesGridContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Reverse Engineer Prompt Modal -->
+  <div id="reverseModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="color: #fff; font-size: 1.15rem; font-weight: 800;">🔄 Ingeniería Inversa de Prompts</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Pega un texto o resultado final que te guste y la IA deducirá el prompt exacto que lo originó.</p>
+        </div>
+        <button class="modal-close" onclick="closeReverseEngineerModal()">&times;</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <textarea id="reverseInputText" class="studio-textarea" style="height: 120px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);" placeholder="Pega aquí el post, guion o descripción del resultado que viste..."></textarea>
+        <button type="button" class="btn-studio-generate" style="padding: 10px;" onclick="ejecutarIngenieriaInversa()">Desarmar y Obtener Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variable Modal -->
+  <div id="variableModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 style="color: #fff; font-size: 1.1rem; font-weight: 800;">✏️ Personalizar Variables</h3>
+        <button class="modal-close" onclick="closeVariableModal()">&times;</button>
+      </div>
+      <div id="variableModalFields" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
+        <button type="button" class="btn-card" onclick="closeVariableModal()">Cancelar</button>
+        <button type="button" class="btn-card primary" onclick="aplicarReemplazoVariables()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Drawer -->
+  <div id="historyDrawer" class="history-drawer">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="font-size: 1.05rem; font-weight: 800; color: #fff;">🕒 Historial & Favoritos</h3>
+      <button class="modal-close" onclick="toggleHistoryDrawer()">&times;</button>
+    </div>
+    <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+      <button type="button" class="btn-card active" id="histTabRecents" onclick="switchHistoryTab('recents')">Recientes</button>
+      <button type="button" class="btn-card" id="histTabFavs" onclick="switchHistoryTab('favorites')">⭐ Favoritos (<span id="favCount">0</span>)</button>
+    </div>
+    <div id="historyList" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast-msg">
+    <span>✓</span> <span id="toastText">Copiado al portapapeles</span>
+  </div>
+
+  <script>
+    // Templates Library Catalog
+    const PLANTILLAS_PRO = [
+      {
+        titulo: "🏖️ Paquete Vacacional Cancún 2x1 (Agencia de Viajes)",
+        cat: "negocio",
+        hook: "travel_paradise",
+        idea: "Promoción de paquete todo incluido 4 días y 3 noches en Cancún con hotel 5 estrellas, traslados y vuelos incluidos desde $4,999 MXN por persona",
+        desc: "Suite comercial completa: Flyer Ideogram/Flux con tipografía, Copy para Meta Ads, Video Reel 15s y mensaje de WhatsApp."
+      },
+      {
+        titulo: "🦷 Campaña Dental / Implantes & Sonrisa",
+        cat: "negocio",
+        hook: "offer_urgency",
+        idea: "Jornada de valoración y diagnóstico con escáner 3D gratuito para implantes y diseño de sonrisa con facilidades de pago",
+        desc: "Publicidad médica ética de alta confianza con flyer limpio y guion testimonial."
+      },
+      {
+        titulo: "🍕 Promoción Gastronómica 2x1 / Restaurante",
+        cat: "negocio",
+        hook: "price_drop",
+        idea: "Jueves de 2x1 en hamburguesas artesanales gourmet con papas y bebidas para consumo en restaurante o delivery",
+        desc: "Fotografía gastronómica comercial que despierta apetito y copy de llamada rápida."
+      },
+      {
+        titulo: "🚀 Lanzamiento SaaS / App B2B",
+        cat: "pipeline",
+        hook: "contrarian",
+        idea: "Lanzamiento de software SaaS B2B para optimizar flujos contables en agencias con inteligencia artificial",
+        desc: "Campaña completa de conversión con guion, miniaturas y video B-roll."
+      },
+      {
+        titulo: "📱 TikTok Viral de Crecimiento",
+        cat: "pipeline",
+        hook: "open_loop",
+        idea: "Comparación de los 3 errores fatales que cometen los creadores principiantes al querer monetizar su contenido",
+        desc: "Guion de ritmo acelerado y ganchos de retención en los primeros 3 segundos."
+      },
+      {
+        titulo: "📸 Retrato Cinematográfico 8K",
+        cat: "imagen",
+        hook: "none",
+        idea: "Fotografía de retrato de estudio hiperrealista 85mm f/1.4 con iluminación lateral dramática de un explorador espacial",
+        desc: "Optimizado para Midjourney v6.1 y Flux con óptica y flags."
+      },
+      {
+        titulo: "🎥 Cinemática FPV Drone Sci-Fi",
+        cat: "video",
+        hook: "none",
+        idea: "Toma cinematográfica continua en drone FPV atravesando una metrópolis futurista con rascacielos iluminados por neón bajo lluvia",
+        desc: "Dirección de física, velocidad y cámara para Runway Gen-3."
+      },
+      {
+        titulo: "🎙️ Trap / Synthwave Instrumental",
+        cat: "audio",
+        hook: "none",
+        idea: "Banda sonora Synthwave retrofuturista con sintetizadores analógicos cálidos, 120 BPM y línea de bajo contundente",
+        desc: "Estructura lírica con metatags [Intro] [Verse] [Drop] para Suno."
+      },
+      {
+        titulo: "💼 Secuencia de Ventas en Frío B2B",
+        cat: "texto",
+        hook: "before_after",
+        idea: "Secuencia de 3 correos en frío para directores de marketing ofreciendo auditoría gratuita de conversión",
+        desc: "Formato modular con delimitadores y resolución de objeciones."
+      }
+    ];
+
+    // Platform Catalog con Nombres Populares y Comerciales
+    const PLATAFORMAS_MAP = {
+      pipeline: [{ id: "Pipeline Suite Completa", name: "⚡ Pipeline Multimodal (Todo en 1)", badge: "All-in-One", rec: true }],
+      negocio: [
+        { id: "Ideogram 2.0 / Flux", name: "🎨 Flyers con Letras (Ideogram / Flux)", badge: "Texto Perfecto", rec: true },
+        { id: "Meta Ads (Facebook/IG)", name: "📢 Anuncios Facebook & Instagram (Meta)", badge: "Ventas & WhatsApp", rec: true },
+        { id: "Reels / TikTok Ads", name: "🎬 Video Reels / TikTok Comercial", badge: "Alta Conversión", rec: true },
+        { id: "WhatsApp Business Bot", name: "💬 Respuestas Rápidas para WhatsApp", badge: "Cierre de Ventas", rec: true }
+      ],
+      texto: [
+        { id: "ChatGPT 4o", name: "🟢 ChatGPT (OpenAI)", badge: "Más Popular", rec: true },
+        { id: "Google Gemini 1.5 Pro", name: "🔵 Gemini (Google)", badge: "Rápido & Creativo", rec: true },
+        { id: "Claude 3.5 Sonnet", name: "🟣 Claude (Anthropic)", badge: "Mejor Redacción", rec: true },
+        { id: "Meta LLaMA 3.3 (70B)", name: "🔵 Meta AI (Facebook / WhatsApp)", badge: "Social Media", rec: true },
+        { id: "DeepSeek R1", name: "🐳 DeepSeek (Razonamiento)", badge: "Lógica Pura", rec: true },
+        { id: "Microsoft Copilot", name: "🟦 Copilot (Microsoft)", badge: "Búsqueda Web", rec: false },
+        { id: "Mistral Large 2", name: "🟠 Mistral AI", badge: "Multilingüe", rec: false }
+      ],
+      imagen: [
+        { id: "Midjourney v6.1", name: "🎨 Midjourney (Calidad Fotográfica)", badge: "Líder en Arte", rec: true },
+        { id: "Flux.1 Pro / Dev", name: "✨ Flux (Realismo Extremo & Manos)", badge: "Ultra Realista", rec: true },
+        { id: "Ideogram 2.0", name: "🔤 Ideogram (Letreros & Texto Limpio)", badge: "Texto en Imagen", rec: true },
+        { id: "DALL-E 3", name: "🌈 DALL-E / ChatGPT Imagen", badge: "Fácil & Versátil", rec: true },
+        { id: "Meta Imagine", name: "📱 Meta Imagine (Facebook/IG)", badge: "Fácil de Usar", rec: true },
+        { id: "Stable Diffusion 3.5", name: "⚙️ Stable Diffusion", badge: "Control Total", rec: false }
+      ],
+      video: [
+        { id: "Runway Gen-3 Alpha", name: "🎬 Runway (Video Cinemático)", badge: "Efectos de Cine", rec: true },
+        { id: "Kling AI 1.5 Pro", name: "🎥 Kling AI (Movimiento Realista)", badge: "Ultra Fluido", rec: true },
+        { id: "Luma Dream Machine", name: "🚀 Luma (Animación Rápida)", badge: "Dinámico", rec: true },
+        { id: "OpenAI Sora", name: "🌟 Sora (OpenAI Video)", badge: "Próxima Generación", rec: true },
+        { id: "Meta Movie Gen", name: "📱 Meta Movie (Videos para Redes)", badge: "Facebook/Reels", rec: false }
+      ],
+      audio: [
+        { id: "Suno AI v3.5", name: "🎵 Suno (Crear Canciones Completas)", badge: "Música con Voz", rec: true },
+        { id: "ElevenLabs Voice", name: "🎙️ ElevenLabs (Locución & Voces Reales)", badge: "Voz Humana", rec: true },
+        { id: "Udio AI 1.5", name: "🎶 Udio (Música & Pistas)", badge: "Sonido de Estudio", rec: true }
+      ]
+    };
+
+    let currentCategory = 'pipeline';
+    let currentPlatform = "Pipeline Suite Multimodal";
+    let currentFilter = 'all';
+    let currentHistoryTab = 'recents';
+    let cachedPrompts = [];
+    let currentEditingCardIdx = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderPlatforms();
+      checkApiStatus();
+      actualizarContadorFavs();
+
+      const ideaInput = document.getElementById("ideaInput");
+      const charCounter = document.getElementById("charCounter");
+      const tokenEstimator = document.getElementById("tokenEstimator");
+
+      ideaInput.addEventListener("input", () => {
+        const len = ideaInput.value.length;
+        charCounter.textContent = `${len} caracteres`;
+        tokenEstimator.textContent = `~${Math.ceil(len / 4)} tokens`;
+      });
+    });
+
+    function selectCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll(".mode-tab-btn").forEach(tab => {
+        tab.classList.toggle("active", tab.getAttribute("data-cat") === cat);
+      });
+      
+      const wrapper = document.getElementById("platformSelectorWrapper");
+      if (cat === 'pipeline') {
+        wrapper.style.display = "none";
+        currentPlatform = "Pipeline Suite Multimodal";
+      } else {
+        wrapper.style.display = "flex";
+        renderPlatforms();
+      }
+    }
+
+    function setPlatformFilter(filter) {
+      currentFilter = filter;
+      renderPlatforms();
+    }
+
+    function filtrarModelos() {
+      renderPlatforms();
+    }
+
+    function renderPlatforms() {
+      const container = document.getElementById("platformChipsContainer");
+      const searchVal = (document.getElementById("platformSearch")?.value || "").toLowerCase().trim();
+      container.innerHTML = "";
+      
+      const rawList = PLATAFORMAS_MAP[currentCategory] || [];
+      const filteredList = rawList.filter(p => !searchVal || p.name.toLowerCase().includes(searchVal));
+
+      if (filteredList.length === 0) {
+        container.innerHTML = `<div style="color: var(--text-dim); font-size: 0.72rem;">Sin resultados.</div>`;
+        return;
+      }
+
+      if (!filteredList.some(p => p.id === currentPlatform) && filteredList.length > 0) {
+        currentPlatform = filteredList[0].id;
+      }
+
+      filteredList.forEach(p => {
+        const chip = document.createElement("div");
+        chip.className = `model-chip ${p.id === currentPlatform ? 'active' : ''} ${p.rec ? 'recommended' : ''}`;
+        chip.innerHTML = `<span>${p.name}</span>`;
+        chip.onclick = () => {
+          document.querySelectorAll(".model-chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+          currentPlatform = p.id;
+        };
+        container.appendChild(chip);
+      });
+    }
+
+    function applyStarter(text) {
+      const input = document.getElementById("ideaInput");
+      input.value = text;
+      document.getElementById("charCounter").textContent = `${text.length} caracteres`;
+      document.getElementById("tokenEstimator").textContent = `~${Math.ceil(text.length / 4)} tokens`;
+      input.focus();
+    }
+
+    function onBrandVoiceChange() {
+      const val = document.getElementById("brandVoiceProfile").value;
+      if (val === 'custom') {
+        const customPrompt = prompt("Escribe tu ADN de Marca personalizado:");
+        if (customPrompt) {
+          localStorage.setItem("promptforge_custom_dna", customPrompt);
+          showToast("ADN de Marca guardado");
+        }
+      }
+    }
+
+    function gestionarBrandVoice() {
+      const currentDna = localStorage.getItem("promptforge_custom_dna") || "Tono desenfadado, directo, ganchos de alta curiosidad.";
+      const nuevo = prompt("Edita tu ADN de Marca Persistente:", currentDna);
+      if (nuevo !== null) {
+        localStorage.setItem("promptforge_custom_dna", nuevo);
+        document.getElementById("brandVoiceProfile").value = "custom";
+        showToast("ADN de Marca actualizado");
+      }
+    }
+
+    function openApiKeyModal() {
+      const modal = document.getElementById("apiKeyModal");
+      const savedKey = getStoredApiKey();
+      if (savedKey) document.getElementById("modalApiKeyInput").value = savedKey;
+      modal.classList.add("active");
+    }
+
+    function closeApiKeyModal() {
+      document.getElementById("apiKeyModal").classList.remove("active");
+    }
+
+    async function pegarDesdePortapapeles() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          document.getElementById("modalApiKeyInput").value = text.trim();
+          showToast("Clave pegada desde el portapapeles 📋");
+        }
+      } catch(e) {
+        document.getElementById("modalApiKeyInput").focus();
+        showToast("Presiona Ctrl + V para pegar tu clave");
+      }
+    }
+
+    function guardarApiKey() {
+      const input = document.getElementById("modalApiKeyInput");
+      // Limpia espacios ocultos, comillas y caracteres no imprimibles
+      let key = (input.value || "").trim().replace(/[\r\n\t "']/g, "");
+      if (!key || key.length < 10) { 
+        showToast("Por favor ingresa una clave de API válida"); 
+        return; 
+      }
+      localStorage.setItem("gemini_user_api_key", key);
+      checkApiStatus();
+      closeApiKeyModal();
+      showToast("¡API Key guardada y activada con éxito! 🚀");
+    }
+
+    function getStoredApiKey() {
+      try { 
+        return (localStorage.getItem("gemini_user_api_key") || "").trim().replace(/[\r\n\t "']/g, ""); 
+      } catch(e){ 
+        return ""; 
+      }
+    }
+
+    function checkApiStatus() {
+      const key = getStoredApiKey();
+      const dot = document.getElementById("apiDot");
+      const text = document.getElementById("apiStatusText");
+      const pill = document.getElementById("apiStatusPill");
+      const banner = document.getElementById("apiNoticeBanner");
+
+      if (key && key.length > 15) {
+        if (dot) dot.className = "status-dot connected";
+        if (text) text.textContent = "API Key activada";
+        if (pill) pill.style.display = "flex";
+        if (banner) banner.style.display = "none";
+      } else {
+        if (dot) dot.className = "status-dot";
+        if (text) text.textContent = "Sin API Key";
+        if (pill) pill.style.display = "none";
+        if (banner) banner.style.display = "flex";
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastText").textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2500);
+    }
+
+    // 1. TEMPLATES LIBRARY MODAL
+    function openTemplateLibraryModal() {
+      const grid = document.getElementById("templatesGridContainer");
+      grid.innerHTML = "";
+      PLANTILLAS_PRO.forEach(t => {
+        const card = document.createElement("div");
+        card.className = "template-card";
+        card.innerHTML = `
+          <strong style="color: #fff; font-size: 0.88rem;">${t.titulo}</strong>
+          <p style="color: var(--text-muted); font-size: 0.76rem; line-height: 1.4;">${t.desc}</p>
+        `;
+        card.onclick = () => {
+          selectCategory(t.cat);
+          document.getElementById("viralHookFramework").value = t.hook;
+          applyStarter(t.idea);
+          closeTemplateLibraryModal();
+          showToast(`Plantilla "${t.titulo}" cargada en el estudio`);
+        };
+        grid.appendChild(card);
+      });
+      document.getElementById("templateModal").classList.add("active");
+    }
+
+    function closeTemplateLibraryModal() {
+      document.getElementById("templateModal").classList.remove("active");
+    }
+
+    // Conexión ultra-rápida y universal a Google Gemini para toda la aplicación
+    async function llamarGeminiUltrarapido(apiKey, payload) {
+      const prioritizedModels = [
+        "gemini-2.0-flash",
+        "gemini-1.5-flash",
+        "gemini-1.5-flash-latest",
+        "gemini-2.0-flash-exp",
+        "gemini-1.5-flash-8b",
+        "gemini-1.5-pro",
+        "gemini-2.5-flash"
+      ];
+
+      let lastErrorMessage = "";
+
+      const fetchWithTimeout = async (url, opts, timeoutMs = 12000) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const response = await fetch(url, { ...opts, signal: controller.signal });
+          clearTimeout(timer);
+          return response;
+        } catch (e) {
+          clearTimeout(timer);
+          throw e;
+        }
+      };
+
+      // 1. Probar endpoints directos prioritarios
+      for (const model of prioritizedModels) {
+        const endpoints = [
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`
+        ];
+
+        for (const url of endpoints) {
+          try {
+            const res = await fetchWithTimeout(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            }, 10000);
+
+            if (res.ok) {
+              const data = await res.json();
+              if (data.candidates && data.candidates[0]) {
+                return data;
+              }
+            } else {
+              const errData = await res.json().catch(() => ({}));
+              if (errData.error?.message) lastErrorMessage = errData.error.message;
+            }
+          } catch (err) {
+            lastErrorMessage = err.message;
+          }
+        }
+      }
+
+      // 2. Consulta dinámica de modelos si los directos fallaran
+      try {
+        const listRes = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`, {}, 6000);
+        if (listRes.ok) {
+          const listData = await listRes.json();
+          const availableModels = (listData.models || [])
+            .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"));
+
+          for (const m of availableModels) {
+            try {
+              const res = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/${m.name}:generateContent?key=${apiKey}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+              }, 10000);
+
+              if (res.ok) {
+                const data = await res.json();
+                if (data.candidates && data.candidates[0]) return data;
+              }
+            } catch (e) {}
+          }
+        }
+      } catch (e) {}
+
+      throw new Error(lastErrorMessage || "No se pudo conectar con Gemini. Verifica tu conexión y tu API Key.");
+    }
+
+    // 2. REVERSE ENGINEER PROMPTS
+    function openReverseEngineerModal() {
+      document.getElementById("reverseModal").classList.add("active");
+    }
+
+    function closeReverseEngineerModal() {
+      document.getElementById("reverseModal").classList.remove("active");
+    }
+
+    async function ejecutarIngenieriaInversa() {
+      const text = document.getElementById("reverseInputText").value.trim();
+      const apiKey = getStoredApiKey();
+      if (!text) { showToast("Pega un texto primero"); return; }
+      if (!apiKey) { openApiKeyModal(); return; }
+
+      showToast("Analizando y desarmando prompt con IA...");
+
+      const systemPrompt = `Eres un Maestro en Ingeniería Inversa de IA. Analiza el siguiente texto/post o contenido y deduce la estructura de prompt técnico exacta (con roles, delimitadores y reglas) que permitiría recrear este mismo estilo de resultado. Devuelve únicamente el prompt reconstruido.`;
+      
+      try {
+        const data = await llamarGeminiUltrarapido(apiKey, {
+          contents: [{ role: "user", parts: [{ text: `${systemPrompt}\n\nTexto:\n"${text}"` }] }]
+        });
+        const promptDeducido = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        
+        applyStarter(promptDeducido);
+        closeReverseEngineerModal();
+        showToast("¡Prompt deducido e insertado en el estudio!");
+      } catch (e) {
+        showToast(`Error: ${e.message || "No se pudo realizar ingeniería inversa"}`);
+      }
+    }
+
+    // 3. COPY ENTIRE PIPELINE AT ONCE
+    function copiarTodoElPipeline() {
+      if (!cachedPrompts || cachedPrompts.length === 0) {
+        showToast("Genera el pipeline antes de copiar");
+        return;
+      }
+      let fullText = "=== PROMPTFORGE ULTRA - PIPELINE MULTIMODAL ===\n\n";
+      cachedPrompts.forEach((p, i) => {
+        fullText += `[FASE ${i + 1}: ${p.titulo}]\n${p.prompt_tecnico}\n\n`;
+      });
+      navigator.clipboard.writeText(fullText).then(() => {
+        showToast("¡Todo el Pipeline copiado al portapapeles! 🚀");
+      });
+    }
+
+    // Generator Engine
+    async function ejecutarGeneracion() {
+      const apiKey = getStoredApiKey();
+      const ideaInputEl = document.getElementById("ideaInput");
+      const idea = (ideaInputEl?.value || "").trim();
+      const framework = document.getElementById("promptFramework").value;
+      const langChoice = document.getElementById("outputLang").value;
+      const brandVoice = document.getElementById("brandVoiceProfile").value;
+      const hookType = document.getElementById("viralHookFramework").value;
+      const characterLock = document.getElementById("characterLockInput").value.trim();
+      const negativeConstraints = document.getElementById("negativeConstraintsInput").value.trim();
+
+      if (!apiKey) { 
+        openApiKeyModal(); 
+        showToast("Primero ingresa tu API Key en la guía");
+        return; 
+      }
+      
+      if (!idea) { 
+        if (ideaInputEl) {
+          ideaInputEl.focus();
+          ideaInputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          ideaInputEl.style.boxShadow = "0 0 16px rgba(236, 72, 153, 0.8)";
+          setTimeout(() => { ideaInputEl.style.boxShadow = ""; }, 2000);
+        }
+        showToast("✍️ Escribe o dicta tu idea en el campo de abajo"); 
+        return; 
+      }
+
+      const btn = document.getElementById("btnGenerar");
+      const btnText = document.getElementById("btnText");
+      const resultsContainer = document.getElementById("resultsContainer");
+
+      btn.disabled = true;
+      btnText.textContent = "Forjando Pipeline...";
+      
+      resultsContainer.innerHTML = `
+        <div class="studio-card"><div style="height:12px; background:linear-gradient(90deg,#1e293b,#334155,#1e293b); border-radius:4px; animation:pulse 1.5s infinite;"></div></div>
+        <div class="studio-card"><div style="height:12px; background:linear-gradient(90deg,#1e293b,#334155,#1e293b); border-radius:4px; animation:pulse 1.5s infinite;"></div></div>
+      `;
+
+      let customDnaDesc = (brandVoice === 'custom') ? (localStorage.getItem("promptforge_custom_dna") || "") : "";
+      let systemPrompt = "";
+
+      const businessOffer = document.getElementById("businessOfferInput")?.value.trim() || "";
+      const businessCta = document.getElementById("businessCtaInput")?.value.trim() || "";
+
+      if (currentCategory === 'negocio') {
+        systemPrompt = `Eres el Director de Marketing y Copywriting Comercial más cotizado del mundo para Pymes, Agencias de Viajes y Negocios Locales.
+Tu misión es generar una SUITE COMERCIAL COMPLETA DE 4 PROMPTS DE ALTA CONVERSIÓN para vender: "${idea}".
+OFERTA COMERCIAL: "${businessOffer || 'Oferta Exclusiva por tiempo limitado'}".
+LLAMADA A LA ACCIÓN (CTA): "${businessCta || 'Escríbenos por WhatsApp para reservar'}".
+ADN DE NEGOCIO: "${brandVoice}" (${customDnaDesc}). GANCHO: "${hookType}". IDIOMA: "${langChoice}".
+
+Debes estructurar EXACTAMENTE 4 propuestas comerciales sin rodeos:
+1. BLOQUE 1 (FLYER PUBLICITARIO / IDEOGRAM 2.0 / FLUX): Un prompt de imagen comercial profesional con composición publicitaria limpia, espacio para texto (negative space), colores atractivos y tipografía exacta entre comillas con la oferta "${businessOffer}". ${characterLock ? `Estilo visual: ${characterLock}` : ''}
+2. BLOQUE 2 (COPY PARA META ADS / FACEBOOK & INSTAGRAM): Estructura AIDA con gancho que detiene el scroll, beneficios irresistibles, emojis comerciales y cierre directo a WhatsApp. ${negativeConstraints ? `Evitar: ${negativeConstraints}` : ''}
+3. BLOQUE 3 (GUION DE VIDEO REEL / TIKTOK 15s-30s): Guion dinámico segundo a segundo con [Visual], [Audio/Voz en off] y [Texto en Pantalla] mostrando el destino o servicio y cerrando con la llamada a la acción.
+4. BLOQUE 4 (GUION DE CIERRE PARA WHATSAPP BUSINESS / CHATBOT): Mensaje persuasivo de bienvenida y respuesta rápida con preguntas de calificación, presentación de la oferta y facilidad de pago.
+
+Incluye un "score_auditor" numérico del 92 al 99 evaluando la eficacia comercial.
+
+Retorna ESTRICTAMENTE JSON válido:
+{
+  "propuestas": [
+    { "tipo_bloque": "imagen", "titulo": "1. Flyer Publicitario Pro (Ideogram / Flux)", "estrategia": "Clean Typography & Layout", "score_auditor": 98, "enfoque": "Diseño de cartel publicitario con texto legible y contraste comercial.", "prompt_tecnico": "Prompt de imagen", "variables_a_personalizar": ["FECHA_LIMITE", "PRECIO"] },
+    { "tipo_bloque": "texto", "titulo": "2. Copy Persuasivo Meta Ads (Facebook/Instagram)", "estrategia": "Fórmula AIDA + Direct Response", "score_auditor": 99, "enfoque": "Texto de anuncio optimizado para generar clics y mensajes directos.", "prompt_tecnico": "Texto del copy publicitario", "variables_a_personalizar": ["NUMERO_WHATSAPP"] },
+    { "tipo_bloque": "video", "titulo": "3. Guion Video Comercial (Reel / TikTok 20s)", "estrategia": "Fast Paced Visual Hook + CTA", "score_auditor": 96, "enfoque": "Guion audiovisual dividido en escenas para grabar o generar con IA.", "prompt_tecnico": "Guion escena por escena", "variables_a_personalizar": [] },
+    { "tipo_bloque": "texto", "titulo": "4. Guion de Cierre Rápido (WhatsApp Business)", "estrategia": "Cierre de Ventas y Manejo de Objeciones", "score_auditor": 97, "enfoque": "Mensaje de respuesta rápida para cerrar clientes que pregunten por la promo.", "prompt_tecnico": "Plantilla de mensaje WhatsApp", "variables_a_personalizar": ["NOMBRE_CLIENTE"] }
+  ]
+}`;
+      } else if (currentCategory === 'pipeline') {
+        systemPrompt = `Eres Director de Estrategia de IA y Creador Viral Top 1%. Genera EXACTAMENTE una Suite Multimodal Encadenada de 4 prompts para la idea: "${idea}".
+TÉCNICA DE GANCHO SELECCIONADA: "${hookType}".
+- Si el gancho es VISUAL/CLICKBAIT (ej. visual_eye_candy, visual_shock_bizarre, visual_contrast_extreme), debes reflejarlo prioritariamente en la Miniatura/Portada (Midjourney) y en los primeros 3 segundos del guion/video.
+- Si el gancho es PSICOLÓGICO/STORYTELLING, debes estructurar la apertura del guion con esa técnica exacta.
+
+1. BLOQUE 1 (TEXTO/GUION): Para Claude 3.5 Sonnet / ChatGPT con estructura de retención y gancho "${hookType}". ${negativeConstraints ? `Restricciones negativas: ${negativeConstraints}` : ''}
+2. BLOQUE 2 (FOTOGRAFÍA/MINIATURA): Para Midjourney v6.1 / Flux.1 en INGLÉS optimizado para CTR masivo (alta saturación, sujeto central, iluminación dramática, flags --ar 16:9 --v 6.1). ${characterLock ? `Consistencia: ${characterLock}` : ''}
+3. BLOQUE 3 (VIDEO/REELS): Para Runway Gen-3 / Kling con movimientos cinemáticos rápidos de apertura.
+4. BLOQUE 4 (AUDIO): Para Suno v3.5 con metatags [Intro Explosiva] [Drop] y tempo BPM.
+ADN de marca: ${brandVoice} ${customDnaDesc}. Idioma: ${langChoice}.
+
+Incluye un "score_auditor" numérico del 90 al 99 evaluando la calidad técnica de cada variante.
+
+Retorna ESTRICTAMENTE JSON válido:
+{
+  "propuestas": [
+    { "tipo_bloque": "texto", "titulo": "1. Guion & Retención (Claude / ChatGPT)", "estrategia": "Viral Hook + Delimiters", "score_auditor": 98, "enfoque": "Guion optimizado para conversión y retención sostenida.", "prompt_tecnico": "Texto del prompt", "variables_a_personalizar": ["Var 1"] },
+    { "tipo_bloque": "imagen", "titulo": "2. Fotografía / Portada CTR (Midjourney)", "estrategia": "High-CTR Visual Hook 8K", "score_auditor": 96, "enfoque": "Miniatura diseñada específicamente para detener el scroll.", "prompt_tecnico": "Prompt inglés Midjourney", "variables_a_personalizar": [] },
+    { "tipo_bloque": "video", "titulo": "3. Cinemática B-Roll (Runway / Kling)", "estrategia": "Camera Physics & Motion", "score_auditor": 95, "enfoque": "Clips de alto dinamismo cinematográfico.", "prompt_tecnico": "Prompt de video", "variables_a_personalizar": [] },
+    { "tipo_bloque": "audio", "titulo": "4. Música de Fondo (Suno AI)", "estrategia": "Metatags [Verse] & Flow", "score_auditor": 97, "enfoque": "Banda sonora sincronizada con la cadencia.", "prompt_tecnico": "Metatags musicales", "variables_a_personalizar": [] }
+  ]
+}`;
+      } else {
+        systemPrompt = `Eres Arquitecto de Prompts. Genera EXACTAMENTE 3 prompts técnicos profesionales para la plataforma: "${currentPlatform}".
+Marco: ${framework}. Gancho: ${hookType} (Aplica las técnicas de atracción correspondientes a este tipo de gancho). ADN: ${brandVoice} ${customDnaDesc}. ${characterLock ? `Personaje/Estilo: ${characterLock}` : ''} ${negativeConstraints ? `Restricciones: ${negativeConstraints}` : ''}
+${businessOffer ? `Oferta a destacar: ${businessOffer}` : ''} ${businessCta ? `CTA: ${businessCta}` : ''}
+Retorna ESTRICTAMENTE JSON con "score_auditor" (90-99):
+{ "propuestas": [ { "titulo": "Variante", "estrategia": "Técnica", "score_auditor": 98, "enfoque": "Ventaja", "prompt_tecnico": "Prompt", "variables_a_personalizar": ["Var"] } ] }`;
+      }
+
+      const payload = {
+        contents: [{ 
+          role: "user", 
+          parts: [{ text: `${systemPrompt}\n\nIMPORTANTE: Responde ÚNICAMENTE en formato JSON con la clave 'propuestas'.\n\nIDEA A DESARROLLAR:\n"${idea}"` }] 
+        }],
+        generationConfig: { 
+          temperature: 0.7 
+        }
+      };
+
+      try {
+        const data = await llamarGeminiUltrarapido(apiKey, payload);
+        let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+        
+        // Limpieza de bloques de código markdown
+        rawText = rawText.replace(/```json/gi, "").replace(/```/gi, "").trim();
+
+        // Extraer objeto JSON si viene acompañado de texto
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          rawText = jsonMatch[0];
+        }
+
+        let parsed = {};
+        try {
+          parsed = JSON.parse(rawText);
+        } catch(e) {
+          // Si no es JSON estricto, envolver el texto en una variante legible automáticamente
+          parsed = {
+            propuestas: [
+              {
+                titulo: "Prompt Principal Optimizado",
+                estrategia: "Ingeniería de Prompt Directa",
+                score_auditor: 98,
+                enfoque: "Estructura directa generada por la IA.",
+                prompt_tecnico: rawText,
+                variables_a_personalizar: ["TEMA", "OBJETIVO"]
+              }
+            ]
+          };
+        }
+
+        cachedPrompts = parsed.propuestas || [];
+        if (!cachedPrompts || cachedPrompts.length === 0) {
+          cachedPrompts = [{
+            titulo: "Prompt Optimizado",
+            estrategia: "Estructura Directa",
+            score_auditor: 97,
+            enfoque: "Generación completada.",
+            prompt_tecnico: rawText,
+            variables_a_personalizar: []
+          }];
+        }
+
+        renderizarTarjetas(cachedPrompts, currentPlatform);
+        guardarEnHistorial(idea, currentPlatform, cachedPrompts);
+        showToast("¡Suite de Prompts forjada con éxito! 🚀");
+      } catch (err) {
+        console.error("Error en generacion:", err);
+        showToast(`⚠️ ${err.message || "Error al conectar con Gemini."}`);
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = "Forjar Suite de Prompts";
+      }
+    }
+
+    function renderizarTarjetas(propuestas, plataforma) {
+      const container = document.getElementById("resultsContainer");
+      const titleEl = document.getElementById("resultsSectionTitle");
+      const metaEl = document.getElementById("generationMeta");
+
+      container.innerHTML = "";
+
+      if (currentCategory === 'pipeline') {
+        titleEl.textContent = "⚡ Pipeline Multimodal Generado";
+        metaEl.textContent = "4 bloques encadenados";
+      } else {
+        titleEl.textContent = "Prompts Optimizados";
+        metaEl.textContent = `${propuestas.length} variantes`;
+      }
+
+      propuestas.forEach((p, idx) => {
+        const card = document.createElement("div");
+        const blockType = p.tipo_bloque || 'texto';
+        card.className = `studio-card card-${blockType}`;
+        const isFav = checkIfFavorite(p.prompt_tecnico);
+
+        const tagsHtml = (p.variables_a_personalizar && p.variables_a_personalizar.length > 0)
+          ? `<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+               <span style="font-size: 0.7rem; color: #fbbf24; font-weight: 700;">Variables:</span>
+               ${p.variables_a_personalizar.map(v => `<span class="refine-pill" style="color: #fbbf24; border-color: rgba(245,158,11,0.3);" onclick="openVariableEditor(${idx})">[${v}]</span>`).join('')}
+             </div>`
+          : '';
+
+        const safeId = `prompt_text_${idx}`;
+
+        card.innerHTML = `
+          <div class="card-topbar">
+            <div class="card-badge-row">
+              <span class="badge-phase">${p.tipo_bloque ? p.tipo_bloque.toUpperCase() : `Variante 0${idx + 1}`}</span>
+              <span style="font-size: 0.88rem; font-weight: 700; color: #fff;">${p.titulo}</span>
+              <span class="auditor-badge" title="Auditoría de Calidad Técnica">✓ Score: ${p.score_auditor || 97}%</span>
+            </div>
+            <div class="card-actions-row">
+              <button type="button" class="btn-card favorite ${isFav ? 'active' : ''}" onclick="toggleFavoritePrompt(${idx}, this)" title="Guardar">
+                <span>${isFav ? '★' : '☆'}</span>
+              </button>
+              <button type="button" class="btn-card" onclick="testPromptInSandbox(${idx})" title="Probar en Vivo">
+                <span>🧪 Probar</span>
+              </button>
+              <button type="button" class="btn-card primary" onclick="copiarPrompt('${safeId}', this)">
+                <span>📋 Copiar</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+            <strong style="color: var(--accent-cyan);">🎯 Enfoque:</strong> ${p.enfoque}
+          </div>
+
+          <div class="studio-code-view">
+            <div class="studio-code-header">
+              <span>Optimizado para: ${plataforma}</span>
+              <span>UTF-8 Ready</span>
+            </div>
+            <div class="studio-code-content" id="${safeId}">${escapeHtml(p.prompt_tecnico)}</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div class="refine-dock">
+              <span style="font-size: 0.7rem; color: var(--text-dim); font-weight: 700;">REFINAR:</span>
+              <button type="button" class="refine-pill" onclick="refinarPromptDirecto(${idx}, 'mas_conciso')">⚡ Corto</button>
+              <button type="button" class="refine-pill" onclick="refinarPromptDirecto(${idx}, 'mas_detallado')">🔍 Detallado</button>
+              <button type="button" class="refine-pill" onclick="refinarPromptDirecto(${idx}, 'mas_formal')">👔 Formal</button>
+              <button type="button" class="refine-pill" onclick="refinarPromptDirecto(${idx}, 'mas_creativo')">🎨 Creativo</button>
+            </div>
+            ${tagsHtml}
+          </div>
+
+          <div id="sandbox_${idx}" class="sandbox-preview">
+            <div class="sandbox-preview-header">
+              <span>🧪 SIMULACIÓN EN VIVO</span>
+              <span style="cursor: pointer;" onclick="closeSandbox(${idx})">&times;</span>
+            </div>
+            <div id="sandbox_body_${idx}" class="sandbox-preview-body"></div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function copiarPrompt(elementId, btnElement) {
+      const textEl = document.getElementById(elementId);
+      if (!textEl) return;
+      navigator.clipboard.writeText(textEl.innerText || textEl.textContent).then(() => {
+        const orig = btnElement.innerHTML;
+        btnElement.innerHTML = `<span>✓ Copiado</span>`;
+        btnElement.style.background = "var(--accent-emerald)";
+        showToast("Prompt copiado al portapapeles");
+        setTimeout(() => { btnElement.innerHTML = orig; btnElement.style.background = ""; }, 2000);
+      });
+    }
+
+    async function testPromptInSandbox(idx) {
+      const promptText = cachedPrompts[idx]?.prompt_tecnico;
+      const apiKey = getStoredApiKey();
+      if (!promptText || !apiKey) { showToast("Configura tu API Key primero"); return; }
+
+      const box = document.getElementById(`sandbox_${idx}`);
+      const body = document.getElementById(`sandbox_body_${idx}`);
+      box.style.display = "block";
+      body.innerHTML = `<span style="color: #38bdf8;">⚡ Ejecutando simulación en vivo con IA...</span>`;
+
+      try {
+        const simulationPayload = {
+          contents: [{ 
+            role: "user", 
+            parts: [{ 
+              text: `Actúa como el motor de IA destino o asistente ejecutor. Ejecuta o simula en detalle el resultado del siguiente prompt:\n\n${promptText}` 
+            }] 
+          }],
+          generationConfig: { temperature: 0.7 }
+        };
+
+        const data = await llamarGeminiUltrarapido(apiKey, simulationPayload);
+        const resultado = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (resultado) {
+          body.textContent = resultado.trim();
+        } else {
+          body.textContent = "Simulación completada sin texto adicional.";
+        }
+      } catch (e) {
+        body.innerHTML = `<span style="color: #fca5a5;">⚠️ Error en la simulación: ${e.message || "Verifica tu conexión"}</span>`;
+      }
+    }
+
+    function closeSandbox(idx) {
+      document.getElementById(`sandbox_${idx}`).style.display = "none";
+    }
+
+    function openVariableEditor(cardIdx) {
+      currentEditingCardIdx = cardIdx;
+      const vars = cachedPrompts[cardIdx].variables_a_personalizar || [];
+      const fields = document.getElementById("variableModalFields");
+      fields.innerHTML = "";
+
+      vars.forEach((v, i) => {
+        const row = document.createElement("div");
+        row.innerHTML = `<label style="font-size: 0.75rem; color: #fbbf24; font-weight:700;">[${v}]:</label>
+        <input type="text" id="var_input_${i}" data-varname="${v}" class="studio-input" placeholder="Valor para ${v}...">`;
+        fields.appendChild(row);
+      });
+
+      document.getElementById("variableModal").classList.add("active");
+    }
+
+    function closeVariableModal() {
+      document.getElementById("variableModal").classList.remove("active");
+    }
+
+    function aplicarReemplazoVariables() {
+      if (currentEditingCardIdx === null) return;
+      let promptText = cachedPrompts[currentEditingCardIdx].prompt_tecnico;
+      document.querySelectorAll("#variableModalFields input").forEach(inp => {
+        const v = inp.getAttribute("data-varname");
+        const val = inp.value.trim();
+        if (val) promptText = promptText.replace(new RegExp(`\\[\\s*${v}\\s*\\]`, 'gi'), val);
+      });
+
+      cachedPrompts[currentEditingCardIdx].prompt_tecnico = promptText;
+      document.getElementById(`prompt_text_${currentEditingCardIdx}`).textContent = promptText;
+      closeVariableModal();
+      showToast("Variables insertadas en el prompt");
+    }
+
+    async function refinarPromptDirecto(idx, tipo) {
+      const apiKey = getStoredApiKey();
+      if (!apiKey) { openApiKeyModal(); return; }
+
+      const promptOriginal = cachedPrompts[idx].prompt_tecnico;
+      const promptEl = document.getElementById(`prompt_text_${idx}`);
+      const orig = promptEl.textContent;
+      promptEl.innerHTML = `<span style="color: #38bdf8;">🪄 Refinando prompt con IA...</span>`;
+
+      try {
+        const payload = {
+          contents: [{ 
+            role: "user", 
+            parts: [{ 
+              text: `Actúa como Ingeniero de Prompts. Refina este prompt para que sea "${tipo}". Devuelve SOLO el prompt final optimizado:\n\n${promptOriginal}` 
+            }] 
+          }],
+          generationConfig: { temperature: 0.7 }
+        };
+        const data = await llamarGeminiUltrarapido(apiKey, payload);
+        const refined = data.candidates?.[0]?.content?.parts?.[0]?.text || orig;
+        cachedPrompts[idx].prompt_tecnico = refined.trim();
+        promptEl.textContent = refined.trim();
+        showToast("Prompt refinado con éxito");
+      } catch (e) {
+        promptEl.textContent = orig;
+        showToast(`No se pudo refinar: ${e.message || "Error de conexión"}`);
+      }
+    }
+
+    function exportarSuite(formato) {
+      if (!cachedPrompts || cachedPrompts.length === 0) { showToast("Genera prompts primero"); return; }
+      const idea = document.getElementById("ideaInput").value.trim();
+      let contenido = "";
+      let filename = `PromptForge_Suite_${Date.now()}`;
+
+      if (formato === 'markdown') {
+        filename += ".md";
+        contenido = `# ⚡ PromptForge Studio - Suite de Producción\n**Idea:** "${idea}"\n**Fecha:** ${new Date().toLocaleString()}\n\n---\n\n`;
+        cachedPrompts.forEach((p, i) => {
+          contenido += `## ${p.titulo}\n> **Score Auditor:** ${p.score_auditor || 98}%\n> **Enfoque:** ${p.enfoque}\n\n\`\`\`text\n${p.prompt_tecnico}\n\`\`\`\n\n---\n\n`;
+        });
+      } else if (formato === 'json') {
+        filename += ".json";
+        contenido = JSON.stringify({ idea, fecha: new Date().toISOString(), plataforma: currentPlatform, prompts: cachedPrompts }, null, 2);
+      } else {
+        filename += ".txt";
+        contenido = `PROMPTFORGE STUDIO - SUITE\nIdea: "${idea}"\n\n`;
+        cachedPrompts.forEach((p, i) => {
+          contenido += `[${p.titulo}]\nEnfoque: ${p.enfoque}\nPROMPT:\n${p.prompt_tecnico}\n\n-----------------\n\n`;
+        });
+      }
+
+      const blob = new Blob([contenido], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      showToast(`Descargado: ${filename}`);
+    }
+
+    function getFavorites() {
+      try { return JSON.parse(localStorage.getItem("promptforge_favorites") || "[]"); } catch(e){ return []; }
+    }
+
+    function checkIfFavorite(promptText) {
+      return getFavorites().some(f => f.prompt_tecnico === promptText);
+    }
+
+    function toggleFavoritePrompt(idx, btnEl) {
+      const promptObj = cachedPrompts[idx];
+      if (!promptObj) return;
+
+      let favs = getFavorites();
+      const existing = favs.findIndex(f => f.prompt_tecnico === promptObj.prompt_tecnico);
+
+      if (existing >= 0) {
+        favs.splice(existing, 1);
+        btnEl.classList.remove("active");
+        btnEl.innerHTML = `<span>☆</span>`;
+        showToast("Eliminado de favoritos");
+      } else {
+        favs.unshift({ id: Date.now(), titulo: promptObj.titulo, plataforma: currentPlatform, prompt_tecnico: promptObj.prompt_tecnico, date: new Date().toLocaleDateString() });
+        btnEl.classList.add("active");
+        btnEl.innerHTML = `<span>★</span>`;
+        showToast("Añadido a Favoritos ⭐");
+      }
+
+      localStorage.setItem("promptforge_favorites", JSON.stringify(favs));
+      actualizarContadorFavs();
+    }
+
+    function actualizarContadorFavs() {
+      document.getElementById("favCount").textContent = getFavorites().length;
+    }
+
+    function guardarEnHistorial(idea, plataforma, prompts) {
+      try {
+        const history = JSON.parse(localStorage.getItem("promptforge_history") || "[]");
+        history.unshift({ id: Date.now(), timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), idea, plataforma, prompts });
+        if (history.length > 20) history.pop();
+        localStorage.setItem("promptforge_history", JSON.stringify(history));
+      } catch(e){}
+    }
+
+    function toggleHistoryDrawer() {
+      const drawer = document.getElementById("historyDrawer");
+      drawer.classList.toggle("open");
+      if (drawer.classList.contains("open")) switchHistoryTab(currentHistoryTab);
+    }
+
+    function switchHistoryTab(tab) {
+      currentHistoryTab = tab;
+      document.getElementById("histTabRecents").classList.toggle("active", tab === 'recents');
+      document.getElementById("histTabFavs").classList.toggle("active", tab === 'favorites');
+      
+      const container = document.getElementById("historyList");
+      container.innerHTML = "";
+
+      if (tab === 'recents') {
+        const history = JSON.parse(localStorage.getItem("promptforge_history") || "[]");
+        if (history.length === 0) { container.innerHTML = `<div style="color:var(--text-dim); padding:20px; font-size:0.8rem;">Sin historial reciente.</div>`; return; }
+        history.forEach(item => {
+          const el = document.createElement("div");
+          el.style = "background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:10px; border-radius:6px; cursor:pointer;";
+          el.innerHTML = `<div style="font-size:0.7rem; color:#38bdf8;">${item.plataforma} · ${item.timestamp}</div><div style="font-size:0.8rem; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(item.idea)}</div>`;
+          el.onclick = () => {
+            document.getElementById("ideaInput").value = item.idea;
+            cachedPrompts = item.prompts;
+            renderizarTarjetas(item.prompts, item.plataforma);
+            toggleHistoryDrawer();
+          };
+          container.appendChild(el);
+        });
+      } else {
+        const favs = getFavorites();
+        if (favs.length === 0) { container.innerHTML = `<div style="color:var(--text-dim); padding:20px; font-size:0.8rem;">Sin favoritos guardados.</div>`; return; }
+        favs.forEach(f => {
+          const el = document.createElement("div");
+          el.style = "background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:10px; border-radius:6px; cursor:pointer;";
+          el.innerHTML = `<div style="font-size:0.7rem; color:#fbbf24;">★ ${f.titulo}</div><div style="font-size:0.75rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(f.prompt_tecnico)}</div>`;
+          el.onclick = () => { navigator.clipboard.writeText(f.prompt_tecnico); showToast(`¡Copiado!`); };
+          container.appendChild(el);
+        });
+      }
+    }
+
+    /* ========================================================
+       SISTEMA DE DICTADO POR VOZ (SPEECH-TO-TEXT) NATIVO
+       ======================================================== */
+    let recognitionInstance = null;
+    let isRecordingVoice = false;
+
+    function toggleDictadoVoz() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showToast("Tu navegador o sistema no soporta dictado por voz nativo.");
+        return;
+      }
+
+      const micBtn = document.getElementById("btnMicDictate");
+      const micIcon = document.getElementById("micIcon");
+      const micText = document.getElementById("micStatusText");
+      const textarea = document.getElementById("ideaInput");
+
+      if (isRecordingVoice && recognitionInstance) {
+        recognitionInstance.stop();
+        return;
+      }
+
+      try {
+        recognitionInstance = new SpeechRecognition();
+        recognitionInstance.lang = "es-ES";
+        recognitionInstance.continuous = true;
+        recognitionInstance.interimResults = true;
+
+        recognitionInstance.onstart = () => {
+          isRecordingVoice = true;
+          micBtn.classList.add("recording");
+          micIcon.textContent = "🔴";
+          micText.textContent = "Escuchando...";
+          showToast("🎙️ Habla ahora, transcribiendo tu voz...");
+        };
+
+        recognitionInstance.onresult = (event) => {
+          let transcript = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          if (transcript) {
+            // Inserta el texto manteniendo lo anterior
+            if (!textarea.dataset.prevVoiceVal) {
+              textarea.dataset.prevVoiceVal = textarea.value;
+            }
+            const prefix = textarea.dataset.prevVoiceVal ? (textarea.dataset.prevVoiceVal + " ") : "";
+            textarea.value = prefix + transcript;
+            
+            // Actualizar contadores
+            const len = textarea.value.length;
+            document.getElementById("charCounter").textContent = `${len} caracteres`;
+            document.getElementById("tokenEstimator").textContent = `~${Math.ceil(len / 4)} tokens`;
+          }
+        };
+
+        recognitionInstance.onerror = (event) => {
+          console.warn("Speech error:", event.error);
+          detenerDictadoUI();
+          if (event.error === 'not-allowed') {
+            showToast("Permiso de micrófono denegado.");
+          }
+        };
+
+        recognitionInstance.onend = () => {
+          detenerDictadoUI();
+        };
+
+        recognitionInstance.start();
+      } catch (err) {
+        console.error(err);
+        detenerDictadoUI();
+      }
+    }
+
+    function detenerDictadoUI() {
+      isRecordingVoice = false;
+      const micBtn = document.getElementById("btnMicDictate");
+      const micIcon = document.getElementById("micIcon");
+      const micText = document.getElementById("micStatusText");
+      const textarea = document.getElementById("ideaInput");
+      if (micBtn) micBtn.classList.remove("recording");
+      if (micIcon) micIcon.textContent = "🎙️";
+      if (micText) micText.textContent = "Dictar";
+      if (textarea) delete textarea.dataset.prevVoiceVal;
+    }
+
+    /* ========================================================
+       SISTEMA DE SEGURIDAD, LICENCIA Y ACTIVACIÓN POR DISPOSITIVO (HARDWARE ID)
+       ======================================================== */
+    const LICENSE_SALT = "PROMPT_FORGE_ULTRA_DEVICE_LOCK_2026";
+
+    // Genera o recupera una huella digital única del dispositivo/equipo
+    function getOrCreateDeviceId() {
+      let devId = localStorage.getItem("promptforge_device_id");
+      if (!devId) {
+        // Combina datos de pantalla, memoria, procesador y aleatoriedad única
+        const screenData = `${screen.width}x${screen.height}x${screen.colorDepth}`;
+        const navData = `${navigator.hardwareConcurrency || 4}-${navigator.language}`;
+        let hash = 0x811c9dc5;
+        const raw = screenData + navData + Date.now() + Math.random();
+        for (let i = 0; i < raw.length; i++) {
+          hash ^= raw.charCodeAt(i);
+          hash = Math.imul(hash, 0x01000193);
+        }
+        const hex = (hash >>> 0).toString(16).toUpperCase().padStart(8, '0');
+        devId = `PF-${hex.substring(0, 4)}-${hex.substring(4, 8)}`;
+        localStorage.setItem("promptforge_device_id", devId);
+      }
+      return devId;
+    }
+
+    // Algoritmo matemático que calcula la Clave Pro a partir del ID de Dispositivo
+    function calcularKeyParaDeviceId(deviceId) {
+      const cleanId = deviceId.trim().toUpperCase();
+      let hash = 0x811c9dc5;
+      const combined = cleanId + LICENSE_SALT;
+      for (let i = 0; i < combined.length; i++) {
+        hash ^= combined.charCodeAt(i);
+        hash = Math.imul(hash, 0x01000193);
+      }
+      const hex = (hash >>> 0).toString(16).toUpperCase().padStart(8, '0');
+      const part1 = hex.substring(0, 4);
+      const part2 = hex.substring(4, 8);
+      let rev = hex.split("").reverse().join("").substring(0, 4);
+      return `FORGE-${part1}-${part2}-${rev}`;
+    }
+
+    function copiarDeviceId() {
+      const id = document.getElementById("licenseDeviceIdDisplay").value;
+      navigator.clipboard.writeText(id);
+      showToast("¡ID de Dispositivo copiado! Envíalo a soporte.");
+    }
+
+    function verificarEstadoLicencia() {
+      const deviceId = getOrCreateDeviceId();
+      const displayEl = document.getElementById("licenseDeviceIdDisplay");
+      if (displayEl) displayEl.value = deviceId;
+
+      const savedKey = localStorage.getItem("promptforge_license_key");
+
+      if (!savedKey) {
+        document.getElementById("licenseLockScreen").style.display = "flex";
+        return false;
+      }
+
+      const expectedKey = calcularKeyParaDeviceId(deviceId);
+      if (savedKey.trim().toUpperCase() === expectedKey) {
+        document.getElementById("licenseLockScreen").style.display = "none";
+        return true;
+      } else {
+        document.getElementById("licenseLockScreen").style.display = "flex";
+        return false;
+      }
+    }
+
+    function validarYActivarLicencia() {
+      const deviceId = getOrCreateDeviceId();
+      const keyInput = document.getElementById("licenseKeyInput").value.trim().toUpperCase();
+      const errorEl = document.getElementById("licenseErrorMsg");
+
+      if (!keyInput) {
+        errorEl.textContent = "Por favor, introduce tu Clave de Activación Pro.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      const expectedKey = calcularKeyParaDeviceId(deviceId);
+      if (keyInput === expectedKey) {
+        localStorage.setItem("promptforge_license_key", keyInput);
+        errorEl.style.display = "none";
+        document.getElementById("licenseLockScreen").style.display = "none";
+        showToast("¡Software Activado con Éxito! Acceso Vitalicio Desbloqueado 🚀");
+      } else {
+        errorEl.textContent = "Clave incorrecta para este dispositivo. Verifica que coincida exactamente.";
+        errorEl.style.display = "block";
+      }
+    }
+
+    // Inicializar comprobación de licencia y API al cargar
+    document.addEventListener("DOMContentLoaded", () => {
+      verificarEstadoLicencia();
+      checkApiStatus();
+    });
+    // Comprobación inmediata
+    verificarEstadoLicencia();
+    checkApiStatus();
+  </script>
+</body>
+</html>
